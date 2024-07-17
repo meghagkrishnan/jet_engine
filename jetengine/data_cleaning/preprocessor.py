@@ -45,7 +45,7 @@ def train_gbm_with_pipeline(df: pd.DataFrame):
     pipeline_gbm.fit(X, y)
 
     # Make predictions and evaluate the model
-    y_pred = pipeline.predict(X)
+    y_pred = pipeline_gbm.predict(X)
     mse = mean_squared_error(y, y_pred)
     print(f"Mean Squared Error: {mse}")
 
