@@ -35,7 +35,7 @@ def cleaning_training_data(df: pd.DataFrame):
     # Assign the column names to the DataFrame
     df.columns = columns
 
-    # Columns to drop (26th and 27th in zero-indexing)
+    # Columns to drop
     columns_to_drop = ['Sensor_26', 'Sensor_27']
 
     # Additional columns to drop
