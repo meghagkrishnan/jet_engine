@@ -1,12 +1,9 @@
 from jetengine.params import *
+import pandas as pd
 
+def clean_Xdata(df: pd.DataFrame):
 
-def read_data(path):
-    df = pd.read_csv(path,sep = ' ', header=None)
-    columns = COLUMN_NAMES
-    df.columns = columns
-    df = train_FD001.drop(columns = ['sm22', 'sm23'])
+    #Remove id,cycle and setting 3 column for training
+    df_new = df.drop(columns = ['id','cycle','setting3'])
 
-    return df
-
-def clean_data_bm(df: pd.DataFrame):
+    return df_new
