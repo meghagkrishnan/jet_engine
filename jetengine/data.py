@@ -70,9 +70,9 @@ def clean_train_data(df: pd.DataFrame) -> pd.DataFrame:
             'PCNfR_dmd_Demanded_corrected_fan_speed']
 
     # Drop the specified columns
-    df = df.drop(columns_to_drop, axis=1)
+    cleaned_train_df= df.drop(columns_to_drop, axis=1)
 
-    return df
+    return cleaned_train_df
 
 
 def clean_test_data(df: pd.DataFrame) -> pd.DataFrame:
@@ -139,9 +139,9 @@ def clean_test_data(df: pd.DataFrame) -> pd.DataFrame:
             'PCNfR_dmd_Demanded_corrected_fan_speed']
 
     # Drop the specified columns
-    df = df.drop(columns_to_drop, axis=1)
+    cleaned_test_df = df.drop(columns_to_drop, axis=1)
 
-    return df
+    return cleaned_test_df
 
 
 
