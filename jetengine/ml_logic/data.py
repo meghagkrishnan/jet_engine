@@ -146,3 +146,58 @@ def clean_test_data(df: pd.DataFrame) -> pd.DataFrame:
 
 # cleaned_test_df = clean_test_data(test_FD001, rul_FD001)
 # print(cleaned_test_df.head())
+
+
+def display_test_data(df: pd.DataFrame) -> pd.DataFrame:
+     """
+    This function assigns column names to the DataFrame, drops specified columns,
+    and calculates and adds a Remaining Useful Life (RUL) column.
+
+    Parameters:
+    test_df (pd.DataFrame): Input test DataFrame to be cleaned.
+    rul_df (pd.DataFrame): DataFrame containing RUL values for the test units.
+
+    Returns:
+    pd.DataFrame: Cleaned DataFrame with RUL column added.
+    """
+    # Rename the columns
+     columns = [
+                'id',
+                'cycle',
+                'setting1',
+                'setting2',
+                'setting3',
+                'T2_Total_temperature_at_fan_inlet',
+                'T24_Total_temperature_at_LPC_outlet',
+                'T30_Total_temperature_at_HPC_outlet',
+                'T50_Total_temperature_at_LPT_outlet',
+                'P2_Pressure_at_fan_inlet',
+                'P15_Total_pressure_in_bypass_duct',
+                'P30_Total_pressure_at_HPC_outlet',
+                'Nf_Physical_fan_speed',
+                'Nc_Physical_core_speed',
+                'epr_Engine_pressure_ratio',
+                'Ps30_Static_pressure_at_HPC_outlet',
+                'phi_Ratio_of_fuel_flow_to_Ps30',
+                'NRf_Corrected_fan_speed',
+                'NRc_Corrected_core_speed',
+                'BPR_Bypass_Ratio',
+                'farB_Burner_fuel_air_ratio',
+                'htBleed_Bleed_Enthalpy',
+                'Nf_dmd_Demanded_fan_speed',
+                'PCNfR_dmd_Demanded_corrected_fan_speed',
+                'W31_HPT_coolant_bleed',
+                'W32_LPT_coolant_bleed',
+                'sm22',
+                'sm23']
+
+    # Assign the column names to the DataFrame
+     df.columns = columns
+     columns_to_drop = ['sm22', 'sm23', 'setting3', 'T2_Total_temperature_at_fan_inlet', 'P2_Pressure_at_fan_inlet', "P15_Total_pressure_in_bypass_duct",
+            'epr_Engine_pressure_ratio', 'farB_Burner_fuel_air_ratio', 'Nf_dmd_Demanded_fan_speed',
+            'PCNfR_dmd_Demanded_corrected_fan_speed']
+
+    # Drop the specified columns
+     cleaned_test_df = df.drop(columns_to_drop, axis=1)
+
+     return cleaned_test_df
