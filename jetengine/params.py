@@ -1,4 +1,5 @@
 import os
+
 import numpy as np
 #train_FD001 = pd.read_csv('train_FD001.txt',sep=" ",header=None)
 
@@ -16,8 +17,6 @@ BQ_DATASET = "taxifare"
 BQ_REGION = "EU"
 MODEL_TARGET = "local"
 ##################  CONSTANTS  #####################
-LOCAL_DATA_PATH = os.path.join(os.path.expanduser('~'), ".lewagon", "mlops", "data")
-LOCAL_REGISTRY_PATH =  os.path.join(os.path.expanduser('~'), ".lewagon", "mlops", "training_outputs")
 
 COLUMN_NAMES_RAW = ['fare_amount','pickup_datetime', 'pickup_longitude', 'pickup_latitude', 'dropoff_longitude', 'dropoff_latitude', 'passenger_count']
 
@@ -32,3 +31,7 @@ DTYPES_RAW = {
 }
 
 DTYPES_PROCESSED = np.float32
+LOCAL_DATA_PATH = "~/code/meghagkrishnan/jet_engine/jetengine/data"
+#LOCAL_REGISTRY_PATH =  os.path.join(os.path.expanduser('~'), ".lewagon", "mlops", "training_outputs", "jetengine")
+ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
+LOCAL_REGISTRY_PATH = os.path.join(ROOT_DIR, 'models')
