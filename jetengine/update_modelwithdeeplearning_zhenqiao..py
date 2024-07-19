@@ -11,9 +11,8 @@ from sklearn.metrics import r2_score, mean_squared_error
 file_path = os.path.expanduser("~/code/meghagkrishnan/jet_engine/raw_data/train1_update.csv")
 
 train_FD001 = pd.read_csv(file_path, sep=',')
-train_FD001 = train_FD001.drop('id', axis=1)
 
-columns = ['cycle', 'setting1', 'setting2', 'T24_Total_temperature_at_LPC_outlet',
+columns = ['id', 'cycle', 'setting1', 'setting2', 'T24_Total_temperature_at_LPC_outlet',
            'T30_Total_temperature_at_HPC_outlet', 'T50_Total_temperature_at_LPT_outlet',
            'P30_Total_pressure_at_HPC_outlet', 'Nf_Physical_fan_speed',
            'Nc_Physical_core_speed', 'Ps30_Static_pressure_at_HPC_outlet',
@@ -38,6 +37,7 @@ plt.show()
 
 
 correlation_threshold = 0.5
+selected_features = [col for col in train_FD001.columns if col not in ['id', 'RUL', 'cycle']]
 selected_features = train_FD001.corr()['RUL'][abs(train_FD001.corr()['RUL']) > correlation_threshold].index.tolist()
 selected_features.remove('RUL')
 if 'cycle' in selected_features:
@@ -70,34 +70,46 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
-X_train = train_FD001_cleaned.drop(['RUL', 'cycle'], axis=1)
-y_train = train_FD001_cleaned['RUL']
 
-X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, random_state=42)
+
+X = train_FD001_cleaned.drop(['RUL', 'cycle'], axis=1)
+y = train_FD001_cleaned['RUL']
+
+X_train = X[X['id'] <= 80]
+X_test = X[X['id'] > 80]
+y_train = y[:len(X_train)]
+y_test = y[len(X_train):]
+
+print (X_train, X_test, y_train, y_test)
+
+
+X_train = X_train.drop('id', axis=1)
+X_test = X_test.drop('id', axis=1)
+
 numeric_features = X_train.columns.tolist()
-
 preprocessor = ColumnTransformer(
     transformers=[
         ('num', StandardScaler(), numeric_features)
     ])
-
 pipeline = Pipeline([
     ('preprocessor', preprocessor),
     ('regressor', LinearRegression())
 ])
 
 pipeline.fit(X_train, y_train)
-y_val_pred = pipeline.predict(X_val)
 
-val_r2 = r2_score(y_val, y_val_pred)
-print("Validation R2 Score:", val_r2)
-
+y_test_pred = pipeline.predict(X_test)
+test_r2 = r2_score(y_test, y_test_pred)
+print("Test R2 Score:", test_r2)
 
 X_test = test_FD001_cleaned.drop(['cycle'], axis=1)
-# using text data predict
+X_test = X_test[X_train.columns]
+
 y_test_pred = pipeline.predict(X_test)
+
 results_df = pd.DataFrame({
-    'id': test_FD001_cleaned.index,
+    'id': test_FD001_cleaned['id'],  
+    'cycle': test_FD001_cleaned['cycle'],
     'predicted_RUL': y_test_pred
 })
 
@@ -178,7 +190,6 @@ cv_r2_scores = cross_val_score(best_model, X_train, y_train, cv=3, scoring='r2')
 
 print("Cross-validation MSE scores:", cv_mse_scores)
 print("Average CV MSE:", cv_mse_scores.mean())
-
 
 print("\nCross-validation R² scores:", cv_r2_scores)
 print("Average CV R²:", cv_r2_scores.mean())
