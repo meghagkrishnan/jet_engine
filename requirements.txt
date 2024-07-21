@@ -7,8 +7,8 @@ scikit-learn
 
 # Install the correct TensorFlow version
 # Uncomment if you use TensorFlow
-# tensorflow==2.15    # For both Intel and Apple silicon
-
+#tensorflow==2.15    # For both Intel and Apple silicon
+tensorflow==2.10.0; sys_platform != 'darwin' # Windows & Ubuntu Intel chips
 # Google Cloud
 google-cloud-storage
 

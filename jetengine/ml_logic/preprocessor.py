@@ -15,7 +15,7 @@ def process_Xdata(X):
 
     return X_scaled
 
-def split_data(X, y):
+def split_data_LR(X, y):
 
     #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 

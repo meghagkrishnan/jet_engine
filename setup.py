@@ -18,7 +18,7 @@ if os.path.isfile('requirements_dev.txt'):
 setup(name='jetengine',
       version="0.0.1",
       description="Predictive maintenance for Jet Engines",
- #     packages=find_packages(),
+      #packages=find_packages(),
       install_requires=requirements,
       test_suite='tests',
       # include_package_data: to install data from MANIFEST.in
