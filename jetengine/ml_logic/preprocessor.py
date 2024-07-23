@@ -15,6 +15,12 @@ def split_data(df, train_ratio=0.8):
 
     return train_data, val_data
 
+def process_Xdata(X):
+    scaler = StandardScaler()
+    features_normalized = scaler.fit_transform(X)
+    X_scaled = pd.DataFrame(features_normalized, columns=X.columns)
+    return X_scaled
+
 # Normalize the sensor measurements and operational settings using MinMaxScaler.
 
 def normalize_data(train_data, val_data, test_data):
