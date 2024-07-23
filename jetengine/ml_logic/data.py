@@ -117,16 +117,16 @@ def clean_test_data(df: pd.DataFrame) -> pd.DataFrame:
      df.columns = columns
 
     # Get the max cycle for each unit in the test dataset
-     max_cycle_test = df.groupby('id')['cycle'].max().reset_index()
-     max_cycle_test.columns = ['id', 'max_cycle']
+     #max_cycle_test = df.groupby('id')['cycle'].max().reset_index()
+     #max_cycle_test.columns = ['id', 'max_cycle']
 
     # Merge with the RUL values
-     max_cycle_test = max_cycle_test.merge(rul_df, left_index=True, right_index=True)
+     #max_cycle_test = max_cycle_test.merge(rul_df, left_index=True, right_index=True)
 
     # Calculate the RUL for each row in the test dataset
-     test_df = df.merge(max_cycle_test[['id', 'max_cycle', 'RUL']], on='id')
-     test_df['RUL'] = test_df['RUL'] + (test_df['max_cycle'] - test_df['cycle'])
-     test_FD001 = test_df.drop(columns=['max_cycle'])
+     #test_df = df.merge(max_cycle_test[['id', 'max_cycle', 'RUL']], on='id')
+     #test_df['RUL'] = test_df['RUL'] + (test_df['max_cycle'] - test_df['cycle'])
+     #test_FD001 = test_df.drop(columns=['max_cycle'])
 
     # Columns to drop
      columns_to_drop = ['sm22', 'sm23', 'setting3', 'T2_Total_temperature_at_fan_inlet', 'P2_Pressure_at_fan_inlet', "P15_Total_pressure_in_bypass_duct",
@@ -201,3 +201,22 @@ def display_test_data(df: pd.DataFrame) -> pd.DataFrame:
      cleaned_test_df = df.drop(columns_to_drop, axis=1)
 
      return cleaned_test_df
+
+def get_last_cycles(df, engine_number):
+    """
+    Check if the specified engine has at least 50 rows of data. If yes, return the last 50 rows.
+
+    Args:
+    df (pd.DataFrame): DataFrame containing the CMAPSS data.
+    engine_number (int): The engine number to check.
+
+    Returns:
+    pd.DataFrame: DataFrame with the last 50 rows of data for the specified engine, or a message if not enough data.
+    """
+    cycles = 50
+    engine_data = df[df['id'] == engine_number]
+
+    if len(engine_data) < cycles:
+        return pd.DataFrame()  # Return an empty DataFrame
+    else:
+        return engine_data.tail(cycles)
