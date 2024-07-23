@@ -24,7 +24,7 @@ test_structure:
 #======================#
 
 run_api:
-	uvicorn api.fast:app --reload --port 8000
+	uvicorn jetengine.api.fast:app --reload --port 8000
 
 
 #======================#
@@ -111,3 +111,10 @@ docker_deploy:
 		--memory $(GAR_MEMORY) \
 		--region $(GCP_REGION) \
 		--env-vars-file .env.yaml
+
+#======================#
+#       Streamlit      #
+#======================#
+
+run_streamlit:
+	streamlit run app.py

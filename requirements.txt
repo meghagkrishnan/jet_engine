@@ -17,3 +17,6 @@ python-dotenv
 # API
 fastapi
 uvicorn
+
+#streamlit
+streamlit
