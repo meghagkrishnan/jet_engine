@@ -1,5 +1,5 @@
 # data science
-numpy
+numpy<2.0.0
 pandas
 
 # Uncomment if you use sklearn
@@ -8,7 +8,9 @@ scikit-learn
 # Install the correct TensorFlow version
 # Uncomment if you use TensorFlow
 #tensorflow==2.15    # For both Intel and Apple silicon
-tensorflow==2.10.0; sys_platform != 'darwin' # Windows & Ubuntu Intel chips
+tensorflow-macos==2.10.0; sys_platform == 'darwin' and 'ARM' in platform_version    # Mac Apple Silicon-chips (M1, M2)
+tensorflow==2.10.0; sys_platform == 'darwin' and 'ARM' not in platform_version      # Mac Intel chips
+tensorflow==2.10.0; sys_platform != 'darwin'
 # Google Cloud
 google-cloud-storage
 
@@ -17,3 +19,5 @@ python-dotenv
 # API
 fastapi
 uvicorn
+
+h5py==3.10.0
