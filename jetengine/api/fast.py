@@ -30,9 +30,7 @@ def upload_file(file: UploadFile = File(...)):
     last_rows_df = get_last_cycles(df_clean)
 
     if last_rows_df.empty:
-        return JSONResponse(content={
-            "Engine ID": engine_number,
-            "Message": "Not enough data for prediction"
+        return JSONResponse(content={"Message": "Not enough data for prediction"
         })
 
     else:
