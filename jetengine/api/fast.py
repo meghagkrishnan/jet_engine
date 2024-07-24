@@ -19,38 +19,15 @@ def root():
         'message': "Hi, Welcome to Jet Engine API!"
     }
 
-'''
-@app.post("/predictLR")
+@app.post("/predictLSTM")
 def upload_file(file: UploadFile = File(...)):
     df = pd.read_csv(file.file, sep = ' ', header=None)
     df_clean = display_test_data(df)
     file.file.close()
-    #first_five_rows = df_clean.head().to_dict(orient='records')
-    first_row = df_clean.iloc[0].to_dict()
 
-    df_predict = clean_Xdata(df_clean)
+    # Extract last 50 rows from the input data
 
-    model_LR = load_LR_model
-    assert model_LR is not None
-
-
-    X_processed = process_Xdata(df_predict)
-    y_pred = model_LR.predict(X_processed)
-
-    return JSONResponse(content={
-            "Data": first_row,
-            "RUL": np.round(float(y_pred))
-        })
-'''
-@app.post("/predictLSTM")
-def upload_file( engine_number: int, file: UploadFile = File(...)):
-    df = pd.read_csv(file.file, sep = ' ', header=None)
-    df_clean = display_test_data(df)
-    file.file.close()
-
-    # Specify the engine number you want to check
-    #engine_number = 2
-    last_rows_df = get_last_cycles(df_clean, engine_number)
+    last_rows_df = get_last_cycles(df_clean)
 
     if last_rows_df.empty:
         return JSONResponse(content={

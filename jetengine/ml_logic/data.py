@@ -202,7 +202,7 @@ def display_test_data(df: pd.DataFrame) -> pd.DataFrame:
 
      return cleaned_test_df
 
-def get_last_cycles(df, engine_number):
+def get_last_cycles(df):
     """
     Check if the specified engine has at least 50 rows of data. If yes, return the last 50 rows.
 
@@ -214,9 +214,9 @@ def get_last_cycles(df, engine_number):
     pd.DataFrame: DataFrame with the last 50 rows of data for the specified engine, or a message if not enough data.
     """
     cycles = 50
-    engine_data = df[df['id'] == engine_number]
+    #engine_data = df[df['id'] == engine_number]
 
-    if len(engine_data) < cycles:
+    if len(df) < cycles:
         return pd.DataFrame()  # Return an empty DataFrame
     else:
-        return engine_data.tail(cycles)
+        return df.tail(cycles)
